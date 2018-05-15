@@ -31,10 +31,21 @@
 (package-initialize)
 (elpy-enable)
 
-; (global-set-key (kbd "<f5>") 'compile); compile
-(global-set-key (kbd "C-c C-s") 'compile); compile
+; list of packages to install
+(setq package-list '(elpy json-mode multiple-cursors dockerfile-mode matlab-mode))
+
+; fetch the list of available packages
+(unless package-archive-contents
+  (package-refresh-contents))
+
+; install missing packages
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+
+; set custom keys
+(global-set-key (kbd "C-.") 'compile); compile
 (global-set-key "\M-%" 'query-replace)
-;; (global-set-key "\M-?" 'grep-find)
 (global-set-key "\M-?" 'rgrep)
 (global-set-key "\M-|" 'comment-region)
 
